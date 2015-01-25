@@ -1,0 +1,16 @@
+<ion-view view-title="Memorize">
+	<ion-content>
+		<ion-list>
+		  <label class="item item-input">
+		    <input type="text" ng-model="text.title" placeholder="Title">
+		  </label>
+		  <label class="item item-input">
+		    <textarea msd-elastic ng-model="text.content" placeholder="Text to memorize"></textarea>
+		  </label>
+		  <div class='padding'>
+			  <button class='button button-royal' on-tap='addAndGo()'> Add & Memorize </button>
+			  <button class='button button-calm' on-tap='addText()'> Add </button>
+		   </div>
+		</ion-list>
+	</ion-content>
+</ion-view>
