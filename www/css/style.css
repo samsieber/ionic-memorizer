@@ -6,3 +6,11 @@
 .item-button-right.item-complex {
     padding-right: 0;
 }
+
+.range.full {
+    width: 100%;
+}
+
+.button.item-button{
+	height:100%;
+}

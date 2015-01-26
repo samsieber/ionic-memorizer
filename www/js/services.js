@@ -91,11 +91,13 @@ angular.module("memorize.services",[])
 			return obj[attr];
 		}
 	}
-	function projection(attrList, source){
+	function projection(attrList, source, includeUndefined){
 		var obj = {};
 		attrList.forEach(function(value){
-			obj[value] = source[value];
+			if (source[value]!==undefined || includeUndefined)
+				obj[value] = source[value];
 		})
+		console.log(obj,"asdfasdasdf");	
 		return obj;
 	}
 	return {
@@ -151,5 +153,7 @@ angular.module("memorize.services",[])
       })
       return dfd.promise;
 	}
-	return new Texts();
+	var ret = new Texts();
+	ret.restore();
+	return ret;
 });

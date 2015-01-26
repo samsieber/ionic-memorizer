@@ -1,14 +1,17 @@
 <ion-view view-title="Memorize - {{text.title}}">
-	<ion-content class='has-subheader'>
-		<div class="range">
-		  <i class="icon ion-eye-disabled"></i>
-		  <input type="range" min=0 max={{disp.max}} ng-model='disp.curr' ng-change="disp.updated()" name="easiness">
-		  <i class="icon ion-eye"></i>
-		</div>	
+	<ion-content>
+		
 		<div class='card nice-font'>
 			<ion-item class='item-text-wrap'>
 				{{disp.text}}
 			</ion-item>
 		</div>
 	</ion-content>
+	<ion-footer-bar>
+		<div class="range full">
+		  <i class="icon ion-eye-disabled"></i>
+		  <input type="range" min=0 max={{disp.max}} ng-model='disp.curr' ng-change="disp.updated()" name="easiness">
+		  <i class="icon ion-eye"></i>
+		</div>	
+	</ion-footer-bar>
 </ion-view>

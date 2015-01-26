@@ -19,8 +19,6 @@ angular.module('memorize.controllers', ['memorize.services'])
 		}
 	}
 	$scope.disp.updated();
-	console.log($scope.words);
-
 })
 .controller('AddCtrl',function($scope, text, saveText, $state, $ionicHistory){
 	$scope.text = text;

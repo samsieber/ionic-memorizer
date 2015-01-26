@@ -1,20 +1,14 @@
 <ion-view view-title="Main Menu"> 
 	<ion-nav-buttons side="right">
-      <button class="button" on-tap="toggleDelete()">
-        {{deleteButtonText}}
-      </button>
     </ion-nav-buttons>
 	<ion-content class='padding'>
 		<a href='#/add' class="icon-left ion-plus button button-block button-calm"> Memorize New Text </a>
 		<ion-list show-delete="shouldShowDelete">
-			<ion-item ng-repeat="text in texts" class="item item-button-right">
-			    <ion-delete-button ng-if="shouldShowDelete" class="ion-minus-circled"
-			                       on-tap="removeText($index)">
-			    </ion-delete-button>
+			<ion-item ng-repeat="text in texts" class="item item-button-right" on-tap="memorize(text)" can-swipe="true">
+			    <ion-option-button class="button-positive" on-tap="removeText($index)">
+			      Delete
+			    </ion-option-button>
 				{{text.title}}
-				<button on-tap="memorize(text)" class="button button-calm neg-right">
-					Memorize
-				</button>
 			</ion-item>
 		</ion-list>
 	</ion-content>

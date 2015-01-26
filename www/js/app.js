@@ -15,8 +15,6 @@ angular.module('memorize', ['ionic','memorize.controllers', 'memorize.services',
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-    Texts.restore();
-    console.log(Texts);
   });
 })
 
@@ -34,6 +32,7 @@ angular.module('memorize', ['ionic','memorize.controllers', 'memorize.services',
       url: '/home',
       templateUrl: 'templates/home.html',
       controller:'HomeCtrl',
+      cache:false,
       resolve:{
         texts:function(Texts){
           return function(){
