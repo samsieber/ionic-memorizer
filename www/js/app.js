@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('memorize', ['ionic','memorize.controllers', 'memorize.services', 'monospaced.elastic'])
+angular.module('memorize', ['ionic','memorize.controllers', 'memorize.services', 'monospaced.elastic','angularMoment'])
 
 .run(function($ionicPlatform, Texts) {
   $ionicPlatform.ready(function() {
@@ -17,7 +17,9 @@ angular.module('memorize', ['ionic','memorize.controllers', 'memorize.services',
     }
   });
 })
-
+.constant('angularMomentConfig', {
+    timezone: 'Europe/London'
+})
 .config(function($stateProvider, $urlRouterProvider) {
 
   // if none of the below states are matched, use this as the fallback
@@ -45,10 +47,36 @@ angular.module('memorize', ['ionic','memorize.controllers', 'memorize.services',
           }
         }
       }
+    }).state('debug', {
+      url: '/debug',
+      templateUrl: 'templates/debug.html',
+      controller:'DebugCtrl',
+      cache:false,
+      resolve:{
+        texts:function(Texts){
+          return function(){
+            return Texts.all();
+          }
+        },
+        removeText:function(Texts){
+          return function(text){
+            Texts.removeText(text);
+          }
+        }
+      }
     }).state('memorize', {
-      url: '/memorize/:textID',
+      url: '/text/:textID/memorize',
       controller:'MemorizeCtrl',
       templateUrl: 'templates/memorize.html',
+      resolve: {
+        text: function($stateParams, Texts) {
+          return Texts.getText($stateParams.textID);
+        }
+      }
+    }).state('history', {
+      url: '/text/:textID/history',
+      controller:'HistoryCtrl',
+      templateUrl: 'templates/history.html',
       resolve: {
         text: function($stateParams, Texts) {
           return Texts.getText($stateParams.textID);

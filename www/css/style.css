@@ -14,3 +14,30 @@
 .button.item-button{
 	height:100%;
 }
+
+.my-footer {
+	position:absolute;
+	bottom:0px;
+	text-align: center;
+	width:100%;
+}
+
+.my-footer .button {
+	margin:0 auto;
+	padding-top:4px;
+	border:none;
+}
+
+.my-footer .button.icon-left:before{
+	margin-top:0;
+}
+.no-top-margin{
+	margin-top:0px;
+}
+.centered{
+	text-align:center;
+}
+
+.gray{
+	color:gray;
+}

@@ -109,11 +109,31 @@ angular.module("memorize.services",[])
 	}
 
 })
+.filter("plural",function(){
+	return function(number, singular, plural, none, verb){
+		var str;
+		if (number == 0)
+			str = none + " " + verb
+		else if (number == 1)
+			str = verb + " " + 1 + " " + singular
+		else 
+			str = verb + " " + number + " " + plural
+		return str;
+	}
+})
+.filter("capitalize_first",function(){
+	return function(string){
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+})
 .service("Texts",function($q, $localStorage, Utils){
 	var storageKey = 'textData';
+	
 	function Texts(){
 		this.nextID=0;
 		this.texts=[];
+		this.history = [];
+		this.created = new Date();
 	};
 
 	Texts.prototype.updated = function(){
@@ -122,11 +142,23 @@ angular.module("memorize.services",[])
     Texts.prototype.restore = function(){
     	console.log($localStorage.getObject(storageKey));
     	angular.extend(this, $localStorage.getObject(storageKey));
-    	console.log(this);
-    	var x = {};
-    	angular.extend(x, $localStorage.getObject(storageKey));
-    	console.log(x);
+    	this.texts.forEach(function(text){
+    		if (!text.history){
+    			text.history = []
+    		}
+    		if (!text.created){
+    			text.created = new Date();
+    		}
+    		text.history = text.history.map(function(dateString){
+    			return new Date(dateString);
+    		})
+    	})
+    	return this;
     };
+    Texts.prototype.memorized = function(text){
+    	text.history.push(new Date());
+    	this.updated();
+    }
 
     Texts.prototype.addText = function(text){
 		this.nextID+=1;
@@ -140,11 +172,13 @@ angular.module("memorize.services",[])
 	}
 	Texts.prototype.newText = function(){
 		return {
-			id:this.nextID
+			id:this.nextID,
+			history:[],
+			created:new Date()
 		}
 	};
 	Texts.prototype.all = function(){
-		return this.texts;
+		return angular.extend([],this.texts);
 	};
 	Texts.prototype.getText = function(id){
       var dfd = $q.defer();
@@ -153,7 +187,5 @@ angular.module("memorize.services",[])
       })
       return dfd.promise;
 	}
-	var ret = new Texts();
-	ret.restore();
-	return ret;
+	return new Texts().restore();
 });

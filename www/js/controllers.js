@@ -1,5 +1,5 @@
-angular.module('memorize.controllers', ['memorize.services'])
-.controller('MemorizeCtrl',function($scope, text, Utils, setBackState){
+angular.module('memorize.controllers', ['memorize.services', 'angularMoment'])
+.controller('MemorizeCtrl',function($scope, text, Texts, Utils, setBackState, $ionicHistory){
 	setBackState('home');
 	$scope.text = text;
 	var words = $scope.text.content.split(" ");
@@ -17,6 +17,10 @@ angular.module('memorize.controllers', ['memorize.services'])
 				return (obj.show < disp.curr) ? obj.word : obj.word[0];
 			}).join(" ");
 		}
+	}
+	$scope.memorized = function(){
+		Texts.memorized($scope.text);
+		$ionicHistory.goBack();
 	}
 	$scope.disp.updated();
 })
@@ -48,23 +52,31 @@ angular.module('memorize.controllers', ['memorize.services'])
 		}
 	}
 })
+
 .controller('HomeCtrl',function($scope, $state, texts, removeText){
 	$scope.texts = texts();
 	$scope.removeText = function(index){
-		console.log("here");
 		removeText(index);
-		console.log($scope.texts);
+		$scope.texts.splice(index,1);
 	}
 	$scope.memorize = function(text){
-		console.log("I'm a here!");
-		console.log(text.id);
 		$state.go("memorize",{textID:text.id});
-		console.log("Wheee!!!");
 	}
-	$scope.toggleDelete = function(){
-		$scope.shouldShowDelete = !$scope.shouldShowDelete;
-		$scope.deleteButtonText = $scope.shouldShowDelete ? "Done Removing" : 'Remove Text';
+	$scope.history = function(text){
+		$state.go("history",{textID:text.id});
 	}
-	$scope.shouldShowDelete = true;
-	$scope.toggleDelete();
+})
+
+.controller('HistoryCtrl',function($scope, text){
+	$scope.text = {
+		created: text.created,
+		history: text.history.map(function(o){return o}).reverse()
+	};
+})
+
+
+.controller('DebugCtrl',function($scope, $state, texts, removeText){
+	$scope.texts = texts();
+	console.log("here");
+	$scope.content = JSON.stringify($scope.texts);
 })

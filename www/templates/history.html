@@ -1,0 +1,20 @@
+<ion-view view-title="Main Menu"> 
+	<ion-nav-buttons side="right">
+    </ion-nav-buttons>
+	<ion-content class='padding'>
+		<ul class="list">
+			<div class="item item-divider">
+			 	Created: 
+			</div>
+		    <li class="item">
+		      	 {{text.created | amCalendar}}
+		    </li>
+		    <div class="item item-divider">
+			 	{{text.history.length | plural:"time":"times":"never":"memorized" | capitalize_first}}
+			</div>
+		    <li ng-repeat="date in text.history" class="item">
+		      	{{date | amCalendar}}
+		    </li>
+		</ul>
+	</ion-content>
+</ion-view>

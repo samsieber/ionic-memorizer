@@ -1,15 +1,29 @@
 <ion-view view-title="Main Menu"> 
 	<ion-nav-buttons side="right">
     </ion-nav-buttons>
-	<ion-content class='padding'>
-		<a href='#/add' class="icon-left ion-plus button button-block button-calm"> Memorize New Text </a>
+	<ion-content class='padding has-footer'>
+		<div class='centered gray'>
+			<span ng-if="texts && texts.length">Tap to memorize, swipe left to delete</span>
+			<span ng-if="!texts || !texts.length"> You have no texts saved. Add a text to memorize it</span>
+		</div>
 		<ion-list show-delete="shouldShowDelete">
-			<ion-item ng-repeat="text in texts" class="item item-button-right" on-tap="memorize(text)" can-swipe="true">
-			    <ion-option-button class="button-positive" on-tap="removeText($index)">
+			<ion-item ng-repeat="text in texts track by text.id" class="item item-button-right" on-tap="memorize(text)" can-swipe="true">
+			    <ion-option-button class="button-assertive" on-tap="removeText($index)">
 			      Delete
 			    </ion-option-button>
+			    <ion-option-button class="button-royal" on-tap="history(text)">
+			      History
+			    </ion-option-button>
 				{{text.title}}
+				<span class="item-note">
+					<span ng-if="text.history[0]" am-time-ago="text.history[text.history.length-1]"></span>
+					<span ng-if="!text.history[0]"> Never </span>
+			    </span>
 			</ion-item>
 		</ion-list>
+		 <!-- <a href='#/debug' class='button button-calm' on-tap='addText()'> Debug </a> -->
 	</ion-content>
+	<div class='my-footer'>
+		<a href='#/add' class="icon-left ion-plus button button-block button-royal"> Memorize New Text </a>
+	</div>
 </ion-view>
